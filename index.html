@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Birthday Game ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Press Start 2P', cursive;
+}
+
+/* ================= BACKGROUNDS ================= */
+
+#startScreen {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+
+    background: url("https://i.pinimg.com/736x/2c/5c/42/2c5c423b1653eb75f1cc238b0101fcce.jpg")
+    no-repeat center center/cover;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#gameScreen {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+
+    background: url("https://i.pinimg.com/736x/2c/5c/42/2c5c423b1653eb75f1cc238b0101fcce.jpg")
+    no-repeat center center/cover;
+}
+
+#messageScreen {
+    display: none;
+    width: 100%;
+    height: 100vh;
+
+    background: url("https://i.pinimg.com/736x/2c/5c/42/2c5c423b1653eb75f1cc238b0101fcce.jpg")
+    no-repeat center center/cover;
+
+    position: relative;
+    overflow-y: auto;
+}
+
+/* ================= OVERLAY FIX (IMPORTANT) ================= */
+#startScreen::before,
+#gameScreen::before,
+#messageScreen::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 1;
+    pointer-events: none; /* 🔥 THIS FIXES BUTTON CLICK ISSUES */
+}
+
+/* make sure UI is above overlay */
+#startScreen > *,
+#gameScreen > *,
+#messageScreen > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* ================= BUTTONS ================= */
+.start-btn,
+.continue-btn {
+    font-family: 'Press Start 2P', cursive;
+    padding: 18px 50px;
+    background: #ff7aa2;
+    border: 4px solid white;
+    color: white;
+    cursor: pointer;
+    text-shadow: 0 0 12px white;
+    box-shadow: 0 0 20px rgba(255,255,255,0.8);
+    transition: 0.25s;
+}
+
+.start-btn:hover,
+.continue-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 35px rgba(255,255,255,1);
+}
+
+/* ================= CENTER UI ================= */
+.center-ui {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.title {
+    font-size: 42px;
+    color: white;
+    text-shadow: 0 0 18px white, 0 0 35px white, 4px 4px #ff6f91;
+}
+
+.level {
+    font-size: 12px;
+    color: white;
+    animation: glowPulse 1.6s infinite;
+}
+
+@keyframes glowPulse {
+    0% { transform: scale(1); text-shadow: 0 0 5px white; }
+    50% { transform: scale(1.1); text-shadow: 0 0 20px white; }
+    100% { transform: scale(1); text-shadow: 0 0 5px white; }
+}
+
+/* ================= MESSAGE BOX ================= */
+.message-box {
+    width: 75%;
+    max-width: 900px;
+
+    background: rgba(0, 0, 0, 0.72);
+    border: 3px solid white;
+    box-shadow: 0 0 35px white;
+
+    border-radius: 15px;
+    padding: 25px;
+white-space: pre-wrap;
+    margin: 80px auto;
+
+    overflow-y: auto;
+
+    font-family: 'Quicksand', sans-serif;
+    font-size: 18px;
+    line-height: 1.7;
+
+    /* stronger glow */
+    text-shadow:
+        0 0 6px rgba(255,255,255,0.6),
+        0 0 12px rgba(255,255,255,0.4),
+        0 0 18px rgba(255,80,150,0.3);
+color: rgba(255, 255, 255, 0.75);
+    
+}
+
+/* ================= HEARTS ================= */
+.heart {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: white;
+    transform: rotate(45deg);
+    animation: floatUp 6s linear infinite;
+    box-shadow: 0 0 12px white;
+    opacity: 0.9;
+}
+
+.heart::before,
+.heart::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
+}
+
+.heart::before { top: -5px; left: 0; }
+.heart::after { left: -5px; top: 0; }
+
+@keyframes floatUp {
+    from { transform: translateY(100vh) rotate(45deg); }
+    to { transform: translateY(-10vh) rotate(45deg); opacity: 0; }
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="startScreen">
+    <button class="start-btn" onclick="startGame()">START</button>
+</div>
+
+<div id="gameScreen">
+    <div class="center-ui">
+        <div class="title">HAPPY BIRTHDAY</div>
+        <div class="level">LEVEL 17 UNLOCKED</div>
+        <button class="continue-btn" onclick="openMessage()">CONTINUE</button>
+    </div>
+</div>
+
+<div id="messageScreen">
+    <div class="message-box">
+ Happy birthday my love i cant believe my babys about to turn 17 thats crazy they grow up so fast i just wanted to make something for your birthday since im not really able to buy you anything and no matter how much we argue or what happens ill still make gifts for you because i love u more than anyone and u have a special place in my heart i always think about u no matter what im doing from the moment i wake up to the moment i go to sleep u always go through my mind and ur irreplaceable because no matter how many fights we might get into no matter how many times we misunderstand eachother no one has ever made me feel the way u did and no ones been there for me the way u have so i will always appreciate that.
+
+     ❤︎⁠❤︎⁠                         ❤︎⁠❤︎⁠                    ❤︎⁠❤︎⁠                     ❤︎⁠❤︎⁠                   ❤︎⁠❤︎⁠                ❤︎⁠❤︎⁠         ❤︎⁠❤︎⁠
+                                                                                              
+
+🐾Im really glad i got to meet a guy like u because even though u might act nonchalant or tough ur always so kind and i dont know how to word it but u got an outstanding personality even if we dont play as much as we used to anymore and stopped doing some things i have to say that u always know how to make someone laugh when theyre feeling down and u know how to keep secrets ur honest personally i really like ur personality and dont even get me started on ur looks ur the most handsome guy ive ever seen and im not just saying it to say it because yes there are people on tt pinterest everywhere being attractive but no one compares to u and u shouldnt be insecure about a single thing because for me ur perfect and u shouldnt change for anyone ur perfect on the inside and outside and i adore everything about u and dont even get me started on ur voice whenever i hear u i start tweaking i could listen to ur voice all day foreal i just really love u so much and i hope u know that and u can always rely on me no matter what the circumstances are ur the best boyfriend and not only boyfriend just like my best friend bro knowing i can js go to u no matter what and u wont judge me thats really what matters to me and i hope we can get through whatever goes on in our lives because i feel like especially with u i can get through anything uve helped me get through so much i dont know what and how i couldve done it without u so thank u for always been there for me and even if i dont show it i really enjoy spending time with u and just talking with u because time passes so fast whenever we talk or play u make hours feel like minutes and ill always be thankful ur a part of my life even if something does happen and ur not anymore just know that ill always be thankful i met u and ill always appreciate what uve done for me i could sit here and write for hours but it i think u got the point i just love u so much and for me my love for u grows more and more by each day passes and as long as i got u thats all that matters🪽                                                                                ⠀
+⠀⠀ ⠀⠀ ⠀⠀ ⠀⠀ ⠀⠀ ⠀⠀ ⠀
+ ⠀                         ⠀
+⠀     ❤︎⁠❤︎⁠                         ❤︎⁠❤︎⁠                    ❤︎⁠❤︎⁠                     ❤︎⁠❤︎⁠                   ❤︎⁠❤︎⁠                ❤︎⁠❤︎⁠         ❤︎⁠❤︎⁠
+                       
+ 
+
+🐾I just wanted to let that out and let u know and were gonna play today or as i told u i got these games so i can screenshare if u want again i love u so much and ull always be my handsome boy i hope u have an amazing birthday u deserve it i love u so much mwahhh🪽
+    </div>
+</div>
+
+<script>
+
+let heartsStarted = false;
+
+function startGame() {
+    document.getElementById("startScreen").style.display = "none";
+    document.getElementById("gameScreen").style.display = "block";
+
+    if (!heartsStarted) {
+        heartsStarted = true;
+        setInterval(spawnHeart, 250);
+    }
+}
+
+function openMessage() {
+    document.getElementById("gameScreen").style.display = "none";
+    document.getElementById("messageScreen").style.display = "block";
+}
+
+function spawnHeart() {
+    const h = document.createElement("div");
+    h.classList.add("heart");
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.animationDuration = (4 + Math.random() * 3) + "s";
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 7000);
+}
+
+</script>
+
+</body>
+</html>
